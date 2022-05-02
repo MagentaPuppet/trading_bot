@@ -2,6 +2,7 @@ import os
 import logging
 from socket import create_connection
 import time
+import copy
 
 from iqoptionapi.stable_api import IQ_Option
 from config import Config
@@ -129,7 +130,7 @@ class Strategy():
         df = df[['MA20', 'MA50']]
  
         print("running...")
-        balance = Starter().update_balance
+        balance = Starter().update_balance()
 
         if df.MA20.iloc[-1] > df.MA50.iloc[-1] \
         and df.MA20.iloc[-2] < df.MA50.iloc[-2]:
@@ -146,10 +147,26 @@ class Strategy():
                 status = 'stalemate'
                 profit = 0
             print(f"That was a {status}.\nProfit: {profit}.\nYour new balance is {balance}")
+            time.sleep(2)
+            print("Waiting for the next candle")
                 
         elif df.MA20.iloc[-1] < df.MA50.iloc[-1] \
         and df.MA20.iloc[-2] > df.MA50.iloc[-2]:
             Starter().sell()
+            time.sleep(60)
+            new_balance = Starter().update_balance()
+            if new_balance > balance:
+                status = "win"
+                profit = new_balance - balance
+            elif new_balance < balance:
+                status = "loss"
+                profit = new_balance - balance
+            else:
+                status = 'stalemate'
+                profit = 0
+            print(f"That was a {status}.\nProfit: {profit}.\nYour new balance is {balance}")
+            time.sleep(2)
+            print("Waiting for the next candle")
         
         """self.config = Config()
         self.api = IQ_Option(

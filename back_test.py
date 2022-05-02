@@ -70,9 +70,6 @@ class Back_test:
                     neither_sell.append(df_open_close.Close.iloc[i])   
                     index_neither_sell.append(i)
         
-        
-        
-        
         plt.figure(figsize = (20, 5))        
         plt.plot(df['Close'], label = 'Asset price', c = 'blue', alpha = 0.5)
         plt.plot(df['MA20'], label = 'MA20', c = 'k', alpha = 0.9)
