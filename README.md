@@ -1,6 +1,6 @@
-## IQ Option Trading Bot
+# IQ Option Trading Bot
 
-# Necessary Packages and Libraries
+## Necessary Packages and Libraries
  - tkinter
  - finplot
  - functools
