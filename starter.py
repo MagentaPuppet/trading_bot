@@ -122,18 +122,18 @@ class Strategy():
         df = requests.get(url).json()
         df = pd.DataFrame(df)        
 
-        df['MA20'] = df[4].rolling(2).mean()
-        df['MA50'] = df[4].rolling(5).mean()
+        df['MA2'] = df[4].rolling(2).mean()
+        df['MA5'] = df[4].rolling(5).mean()
 
         df = df.dropna()
 
-        df = df[['MA20', 'MA50']]
+        df = df[['MA2', 'MA5']]
  
         print("running...")
         balance = Starter().update_balance()
 
-        if df.MA20.iloc[-1] > df.MA50.iloc[-1] \
-        and df.MA20.iloc[-2] < df.MA50.iloc[-2]:
+        if df.MA2.iloc[-1] > df.MA5.iloc[-1] \
+        and df.MA2.iloc[-2] < df.MA5.iloc[-2]:
             Starter().buy()
             time.sleep(60)
             new_balance = Starter().update_balance()
@@ -146,12 +146,12 @@ class Strategy():
             else:
                 status = 'stalemate'
                 profit = 0
-            print(f"That was a {status}.\nProfit: {profit}.\nYour new balance is {balance}")
+            print(f"That was a {status}.\nProfit: {profit}.\nYour new balance is {new_balance}")
             time.sleep(2)
             print("Waiting for the next candle")
                 
-        elif df.MA20.iloc[-1] < df.MA50.iloc[-1] \
-        and df.MA20.iloc[-2] > df.MA50.iloc[-2]:
+        elif df.MA2.iloc[-1] < df.MA5.iloc[-1] \
+        and df.MA2.iloc[-2] > df.MA5.iloc[-2]:
             Starter().sell()
             time.sleep(60)
             new_balance = Starter().update_balance()
@@ -164,7 +164,7 @@ class Strategy():
             else:
                 status = 'stalemate'
                 profit = 0
-            print(f"That was a {status}.\nProfit: {profit}.\nYour new balance is {balance}")
+            print(f"That was a {status}.\nProfit: {profit}.\nYour new balance is {new_balance}")
             time.sleep(2)
             print("Waiting for the next candle")
         

@@ -13,8 +13,8 @@ class Back_test:
         pass
     
     def view_back_test_charts(self):
-        start_date = '2019-01-01'
-        df = yf.download('BTC-USD', start=start_date)
+        start_date = '2020-05-01'
+        df = yf.download('EURUSD=X', start=start_date)
 
         df['MA20'] = df['Close'].rolling(20).mean()
         df['MA50'] = df['Close'].rolling(50).mean()
